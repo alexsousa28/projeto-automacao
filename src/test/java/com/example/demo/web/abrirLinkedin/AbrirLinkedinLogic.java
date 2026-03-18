@@ -13,7 +13,7 @@ public class AbrirLinkedinLogic {
     }
 
     public void acessarSite(){
-
+        String step = "Acessando LinkedIn";
         log.info("Abrindo Linkedin");
 
         driver.get("https://www.linkedin.com/");
