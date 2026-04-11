@@ -1,4 +1,4 @@
-package com.example.demo.web.screenshot;
+package com.example.demo.web.hooks;
 
 import com.example.demo.web.driver.DriverFactory;
 import com.example.demo.web.screenshot.PdfEvidenceManager;
