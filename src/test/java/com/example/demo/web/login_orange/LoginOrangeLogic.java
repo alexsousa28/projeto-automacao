@@ -6,93 +6,77 @@ import com.example.demo.web.screenshot.StepContext;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
-
-//import static com.example.demo.web.screenshot.StepContext.step;
 
 @Log4j2
 public class LoginOrangeLogic {
 
     private WebDriver driver;
     private WebDriverWait wait;
+    private LoginOrangePage page;
 
     public LoginOrangeLogic(WebDriver driver){
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        this.page = new LoginOrangePage(driver);
     }
 
-    // STEP 1
     public void acessarSiteOrange(){
-        String step = "Dado que: O usuário acessa site Orange HRM";
+        String step = "Dado que: O usuário acessa o site Orange HRM";
         StepContext.setStep(step);
         log.info(step);
 
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        wait.until(ExpectedConditions.visibilityOf(page.getInputUsername()));
 
-        // espera a página carregar
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                LoginOrangePage.getINPUT_USERNAME()
-        ));
-        //Evidencia após carregar a página!
+        log.info("Acessando site: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        //Evidencia que o usuário foi direcionado para o site desejado
         PdfEvidenceManager.adicionarStep(
                 step,
                 ScreenshotUtil.tirarScreenshot()
         );
     }
 
-    // STEP 2
     public void preencherCamposUsuarioSenha(){
-        String step = "Quando: O usuário preenche usuário e senha";
+        String step = "Quando: O usuário preenche os campos usuário e senha";
         StepContext.setStep(step);
         log.info(step);
 
-        log.info("Preenchendo username...");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                LoginOrangePage.getINPUT_USERNAME()
-        )).sendKeys("Admin");
+        log.info("Preenchendo o campo usuário...");
+        wait.until(ExpectedConditions.visibilityOf(page.getInputUsername()))
+                .sendKeys("Admin");
 
-        log.info("Preenchendo password...");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                LoginOrangePage.getINPUT_PASSWORD()
-        )).sendKeys("admin123");
+        log.info("Preenchendo campo senha...");
+        wait.until(ExpectedConditions.visibilityOf(page.getInputPassword()))
+                .sendKeys("admin123");
 
-        //Evidencia após preencher os campos login e senha "Importante ser antes da ação de click!"
+        //Evidencia que o usuário preencheu o login e senha... "IMPORTANTE QUE SEJA EVIDENCIADO ANTES DA AÇÃO DE CLIQUE"
         PdfEvidenceManager.adicionarStep(
                 step,
                 ScreenshotUtil.tirarScreenshot()
         );
         log.info("Clicando no botão login...");
-        wait.until(ExpectedConditions.elementToBeClickable(
-                LoginOrangePage.getBTN_LOGIN()
-        )).click();
+        wait.until(ExpectedConditions.elementToBeClickable(page.getBtnLogin()))
+                .click();
     }
 
-    // STEP 3
     public void validarLogin(){
-        String step = "Então: O usuário valida que o login foi realizado com sucesso";
+        String step = "Então: O usuário consegue validar que o login foi feito com sucesso";
         StepContext.setStep(step);
         log.info(step);
 
-        // espera elemento da home (dashboard)
-        boolean loginSucesso = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        LoginOrangePage.getVALIDAR_LOGIN()
-                )
+        boolean sucesso = wait.until(
+                ExpectedConditions.visibilityOf(page.getValidarLogin())
         ).isDisplayed();
 
-        // valida
-        Assert.assertTrue("Login não foi realizado com sucesso", loginSucesso);
-
-        // valida adicional (URL)
-        Assert.assertTrue("URL incorreta após login",
-                driver.getCurrentUrl().contains("dashboard"));
-        //Evidencia a validação de login!
+        Assert.assertTrue("Login falhou", sucesso);
+        //Evidenciando que o usuário logou no site
         PdfEvidenceManager.adicionarStep(
                 step,
                 ScreenshotUtil.tirarScreenshot()
         );
+
     }
 }

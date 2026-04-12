@@ -1,22 +1,30 @@
 package com.example.demo.web.login_orange;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-
+@Getter
 public class LoginOrangePage {
 
-    @Getter
-    private static By INPUT_USERNAME = By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/div[2]/input");
+    private WebDriver driver;
 
-    @Getter
-    private static By INPUT_PASSWORD = By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[2]/div/div[2]/input");
+    public LoginOrangePage(WebDriver driver){
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
 
-    @Getter
-    private static By BTN_LOGIN = By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[3]/button");
+    @FindBy(name = "username")
+    private WebElement inputUsername;
 
-    @Getter
-    private static By VALIDAR_LOGIN = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/header/div[1]/div[1]/span/h6");
+    @FindBy(name = "password")
+    private WebElement inputPassword;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement btnLogin;
+
+    @FindBy(xpath = "//h6[text()='Dashboard']")
+    private WebElement validarLogin;
 }

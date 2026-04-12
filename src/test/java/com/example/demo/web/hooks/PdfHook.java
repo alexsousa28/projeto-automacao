@@ -1,13 +1,14 @@
 package com.example.demo.web.hooks;
 
 import com.example.demo.web.screenshot.PdfEvidenceManager;
+import com.example.demo.web.screenshot.ScreenshotUtil;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
 public class PdfHook {
 
-    // 🔹 INICIA O PDF
+    // 🔹 INICIA PDF
     @Before("@web")
     public void iniciarPdf(Scenario scenario) {
 
@@ -18,17 +19,20 @@ public class PdfHook {
         }
     }
 
-    // 🔹 FINALIZA O PDF
+    // 🔹 FINALIZA PDF
     @After("@web")
     public void finalizarPdf(Scenario scenario) {
 
         try {
 
-            // 🔥 Se quiser evidência final em caso de erro
+            // 🔥 SOMENTE EM CASO DE ERRO (OPCIONAL)
             if (scenario.isFailed()) {
+
+                byte[] screenshot = ScreenshotUtil.tirarScreenshot();
+
                 PdfEvidenceManager.adicionarStep(
-                        "FALHA NO TESTE",
-                        null // ou pode colocar screenshot se quiser
+                        "Erro na execução do teste",
+                        screenshot
                 );
             }
 

@@ -15,14 +15,18 @@ import java.util.Date;
 public class PdfEvidenceManager {
 
     private static Document document;
+    private static PdfFont fontTitle;
+    private static PdfFont fontStep;
     private static PdfFont fontNormal;
-    private static PdfFont fontBold;
 
+    private static boolean primeiroStep = true;
+
+    // 🔹 INICIAR PDF
     public static void iniciarPdf(String nomeCenario) throws Exception {
 
-        // 🔤 fontes (resolve problema do setBold)
+        fontTitle = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
+        fontStep = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
         fontNormal = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-        fontBold = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
 
         String data = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         String pasta = "evidence/" + data;
@@ -32,7 +36,6 @@ public class PdfEvidenceManager {
             dir.mkdirs();
         }
 
-        // 🔥 limpa nome do cenário
         nomeCenario = nomeCenario
                 .replaceAll("[^a-zA-Z0-9 ]", "")
                 .replace(" ", "_");
@@ -44,31 +47,48 @@ public class PdfEvidenceManager {
 
         document = new Document(pdf);
 
-        // 🎯 Cabeçalho
-        document.add(new Paragraph("RELATÓRIO DE TESTE WEB")
-                .setFont(fontBold)
-                .setFontSize(16));
+        // Cabeçalho
+        document.add(new Paragraph("RELATÓRIO DE EXECUÇÃO WEB")
+                .setFont(fontTitle)
+                .setFontSize(18));
 
         document.add(new Paragraph("Cenário: " + nomeCenario)
-                .setFont(fontNormal));
+                .setFont(fontNormal)
+                .setFontSize(11));
 
         document.add(new Paragraph("Data: " + new Date())
-                .setFont(fontNormal));
+                .setFont(fontNormal)
+                .setFontSize(10));
 
         document.add(new Paragraph(" "));
+
+        primeiroStep = true;
     }
 
+    // 🔹 ADICIONAR STEP (cada um em nova página)
     public static void adicionarStep(String stepNome, byte[] screenshot) {
 
         try {
 
             if (document == null) return;
 
-            // 🧾 Nome do step
-            document.add(new Paragraph("Step: " + stepNome)
-                    .setFont(fontBold));
+            stepNome = limparNomeStep(stepNome);
 
-            // 📸 Screenshot (com validação)
+            // 🔥 quebra página apenas depois do primeiro step
+            if (!primeiroStep) {
+                document.add(new AreaBreak());
+            }
+
+            primeiroStep = false;
+
+            // Step
+            document.add(new Paragraph("✔ " + stepNome)
+                    .setFont(fontStep)
+                    .setFontSize(12));
+
+            document.add(new Paragraph(" "));
+
+            // Screenshot
             if (screenshot != null && screenshot.length > 0) {
 
                 Image img = new Image(ImageDataFactory.create(screenshot));
@@ -77,13 +97,12 @@ public class PdfEvidenceManager {
                 document.add(img);
             }
 
-            document.add(new Paragraph(" "));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // 🔹 FINALIZAR PDF
     public static void finalizarPdf() {
 
         try {
@@ -94,5 +113,14 @@ public class PdfEvidenceManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // 🔹 LIMPAR STEP
+    private static String limparNomeStep(String step) {
+
+        return step.replaceAll(
+                "^(Dado que:|Quando:|Então:|Given:|When:|Then:)\\s*",
+                ""
+        );
     }
 }
