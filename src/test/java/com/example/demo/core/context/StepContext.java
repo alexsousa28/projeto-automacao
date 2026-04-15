@@ -1,4 +1,4 @@
-package com.example.demo.web.screenshot;
+package com.example.demo.core.context;
 
 public class StepContext {
 

@@ -1,7 +1,7 @@
-package com.example.demo.web.hooks;
+package com.example.demo.hooks;
 
-import com.example.demo.web.screenshot.PdfEvidenceManager;
-import com.example.demo.web.screenshot.ScreenshotUtil;
+import com.example.demo.core.evidence.PdfEvidenceManager;
+import com.example.demo.core.utils.ScreenshotUtil;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;

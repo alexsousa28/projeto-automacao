@@ -4,7 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-import com.example.demo.web.driver.DriverFactory;
+import com.example.demo.core.driver.DriverFactory;
 
 public class LoginOrangeSteps {
     private LoginOrangeLogic loginOrangeLogic;
@@ -20,7 +20,7 @@ public class LoginOrangeSteps {
     }
 
     @When("preencher os dados de ususario e senha corretamente")
-    public void preencher_os_dados_de_ususario_e_senha_corretamente() {
+    public void preencher_os_dados_de_ususario_e_senha_corretamente() throws InterruptedException {
         loginOrangeLogic.preencherCamposUsuarioSenha();
     }
 

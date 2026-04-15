@@ -1,6 +1,6 @@
-package com.example.demo.web.screenshot;
+package com.example.demo.core.utils;
 
-import com.example.demo.web.driver.DriverFactory;
+import com.example.demo.core.driver.DriverFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;

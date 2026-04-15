@@ -1,8 +1,8 @@
 package com.example.demo.web.login_orange;
 
-import com.example.demo.web.screenshot.PdfEvidenceManager;
-import com.example.demo.web.screenshot.ScreenshotUtil;
-import com.example.demo.web.screenshot.StepContext;
+import com.example.demo.core.evidence.PdfEvidenceManager;
+import com.example.demo.core.utils.ScreenshotUtil;
+import com.example.demo.core.context.StepContext;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +39,7 @@ public class LoginOrangeLogic {
         );
     }
 
-    public void preencherCamposUsuarioSenha(){
+    public void preencherCamposUsuarioSenha() throws InterruptedException {
         String step = "Quando: O usuário preenche os campos usuário e senha";
         StepContext.setStep(step);
         log.info(step);
@@ -60,6 +60,8 @@ public class LoginOrangeLogic {
         log.info("Clicando no botão login...");
         wait.until(ExpectedConditions.elementToBeClickable(page.getBtnLogin()))
                 .click();
+
+        Thread.sleep(2000);
     }
 
     public void validarLogin(){
