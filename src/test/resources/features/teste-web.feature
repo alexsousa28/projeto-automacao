@@ -1,4 +1,4 @@
-@web
+@web @data
 Feature: Teste Web
 
 @34659

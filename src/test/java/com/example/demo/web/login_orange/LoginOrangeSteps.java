@@ -25,7 +25,7 @@ public class LoginOrangeSteps {
     }
 
     @Then("entao devo validar que loguei corretamente")
-    public void entao_devo_validar_que_loguei_corretamente() throws InterruptedException {
+    public void entao_devo_validar_que_loguei_corretamente() {
         loginOrangeLogic.validarLogin();
     }
 }
