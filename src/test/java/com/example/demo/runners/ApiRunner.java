@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
      glue = "com.example.demo",                         // Caminho dos steps
      plugin = {"json:target/cucumber-report.json"},     // Relatórios
      monochrome = true,                                 // Deixa os logs mais limpos
-     tags = "@234576"                                   // Tags para filtrar/cenarios
+     tags = "@235467"                                   // Tags para filtrar/cenarios
 )
 public class ApiRunner {
 }
