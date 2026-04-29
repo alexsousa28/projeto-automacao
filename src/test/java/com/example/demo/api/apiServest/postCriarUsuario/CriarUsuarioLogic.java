@@ -2,7 +2,7 @@ package com.example.demo.api.apiServest.postCriarUsuario;
 
 import com.example.demo.api.apiServest.Endpoint;
 import com.example.demo.api.apiServest.model.UsuarioRequest;
-import com.example.demo.api.gerarRelatorio.PdfReport;
+import com.example.demo.core.evidence.PdfReportApi;
 import com.example.demo.core.context.StepContext;
 import com.example.demo.core.utils.JsonUtil;
 import lombok.extern.log4j.Log4j2;
@@ -86,7 +86,7 @@ public class CriarUsuarioLogic {
     // 🔧 Método isolado para gerar PDF
     private void gerarRelatorio(String jsonRequest) {
 
-        PdfReport report = new PdfReport();
+        PdfReportApi report = new PdfReportApi();
 
         report.gerarRelatorio(
                 response.statusCode(),

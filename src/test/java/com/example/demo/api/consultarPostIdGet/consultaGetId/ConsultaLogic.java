@@ -1,6 +1,6 @@
 package com.example.demo.api.consultarPostIdGet.consultaGetId;
 
-import com.example.demo.api.gerarRelatorio.PdfReport;
+import com.example.demo.core.evidence.PdfReportApi;
 import com.example.demo.api.consultarPostIdGet.EndPoints;
 import com.example.demo.api.consultarPostIdGet.consultaGetId.consultaIdResponse.ConsultaIdResponse;
 import io.cucumber.messages.ndjson.internal.com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,10 +25,10 @@ public class ConsultaLogic {
     private HttpRequest request;
     private HttpResponse<String> response;
     private ConsultaIdResponse consultaIdResponse;
-    private PdfReport pdfReport;
+    private PdfReportApi pdfReport;
 
     public ConsultaLogic() {
-        pdfReport = new PdfReport();
+        pdfReport = new PdfReportApi();
     }
     public void montarRequisicao() {
 
